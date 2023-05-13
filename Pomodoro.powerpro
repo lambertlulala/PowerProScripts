@@ -1,0 +1,68 @@
+
+function _autoinit_()
+    global g_PomodoroIndex
+    global g_clName
+    global g_timerName
+    global g_PomodoroFocusMinutes = 25
+    global g_PomodoroBreakMinutes = 5
+    global g_PomodoroFocusTextColor = 0x5086f0
+    global g_PomodoroBreakTextColor = 0x00ff00
+    global g_PomodoroClearTextColor = 0xffffff
+endfunction
+
+function initFromLabel(clName, label, timerName)
+    g_PomodoroIndex = cl.GetLabelIndex(clName, label)
+    if (g_PomodoroIndex == "")
+        quit "Failed to set pomodoro index from label"
+    g_clName = clName
+    g_timerName = timerName
+endfunction
+
+function initFromId(clName, id, timerName)
+    g_PomodoroIndex = cl.GetIdIndex(clName, id)
+    if (g_PomodoroIndex == "")
+        quit "Failed to set pomodoro index from id"
+    g_clName = clName
+    g_timerName = timerName
+endfunction
+
+function focus()
+    *Timer Set &(g_timerName) 0 &(g_PomodoroFocusMinutes) 0
+    *Timer Start &(g_timerName)
+    cl.SetTextColor(g_clName, g_PomodoroIndex, g_PomodoroFocusTextColor)
+endfunction
+
+function continueOrPause()
+    *Timer StartStop &(g_timerName)
+endfunction
+
+function takeABreak()
+    *Timer Set &(g_timerName) 0 &(g_PomodoroBreakMinutes) 0
+    *Timer Start &(g_timerName)
+    cl.SetTextColor(g_clName, g_PomodoroIndex, g_PomodoroBreakTextColor)
+endfunction
+
+function clear()
+    *Timer Clear &(g_timerName)
+    cl.SetTextColor(g_clName, g_PomodoroIndex, g_PomodoroClearTextColor)
+endfunction
+
+function setFocusInterval()
+    local interval = inputdefault(g_PomodoroFocusMinutes, "Focus Interval")
+    if (interval) do
+        g_PomodoroFocusMinutes = interval
+        *Message Set focus interval to &(g_PomodoroFocusMinutes)
+    endif
+endfunction
+
+function setBreakInterval()
+    local interval = inputdefault(g_PomodoroBreakMinutes, "Break Interval")
+    if (interval) do
+        g_PomodoroBreakMinutes = interval
+        *Message Set break interval to &(g_PomodoroBreakMinutes)
+    endif
+endfunction
+
+function showCompletionMessage(msg)
+    *Message &(msg) *takefocus
+endfunction

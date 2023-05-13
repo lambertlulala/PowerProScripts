@@ -1,0 +1,34 @@
+
+function search(engine)
+    local query = input("Search on " ++ engine)
+    if (query == "")
+        quit
+
+    local url = ""
+    switch (engine)
+        case "Bing"
+            url = "https://www.bing.com/search?q=" ++ query
+            break
+        case "Google"
+            url = "https://www.google.com/search?q=" ++ query
+            break
+        case "Youtube"
+            url = "https://www.youtube.com/results?search_query=" ++ query
+            break
+        case "Github"
+            url = "https://github.com/search?q=" ++ query
+            break
+        case "cppreference"
+            url = "https://en.cppreference.com/w/Special:Search/" ++ query
+            break
+        case "Youdao"
+            url = "https://www.youdao.com/w/eng/" ++ query
+            break
+    endswitch    
+    
+    if (url) do
+        do(url)
+    else
+        quit "Engine " ++ engine ++ " not found"
+    endif
+endfunction
