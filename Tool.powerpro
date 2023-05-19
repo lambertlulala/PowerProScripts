@@ -1,4 +1,9 @@
 
+function initEnvironmentVariable()
+    *Exec SetEnv ProgramFilesX86 C:\Program Files (x86)
+    *Exec SetEnv ProgramFilesX64 C:\Program Files
+endfunction
+
 function copyPproconfTo(dstPath)
     local pproconf = pprofolder ++ "pproconf.pcf"
     if (file.copy(pproconf, dstPath)) do
