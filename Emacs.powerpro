@@ -39,7 +39,8 @@ function openWithMagit()
     local path = inputfolder
     if (path) do
         path = path.replacechars("\\", "/")
-        local params = ?+-na "" -n --eval "(progn (select-frame (make-frame)) (magit-status+ ++ ?+\"+ ++ path ++ ?+\")+ ++ ?+(delete-other-windows))"+
-        do("emacsclientw.exe", params)
+        // local params = ?+-na "" -n --eval "(progn (select-frame (make-frame)) (magit-status+ ++ ?+\"+ ++ path ++ ?+\")+ ++ ?+(delete-other-windows))"+
+        local params = ?+--eval "(magit-status \"d:/git/cilap\")"+
+        do("emacs.exe", params)
     endif
 endfunction
