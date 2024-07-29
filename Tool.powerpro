@@ -30,5 +30,5 @@ function openWithTig()
 endfunction
 
 function copyNewGUID()
-    do("cmd.exe", "/c pwsh.exe -Command [guid]::NewGuid().toString() | clip")
+    do("pwsh.exe", "-Command [guid]::NewGuid().toString() | clip")
 endfunction
