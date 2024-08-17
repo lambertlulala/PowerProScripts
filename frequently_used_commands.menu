@@ -1,0 +1,1 @@
+Copy New GUID = cmd /c "pwsh.exe -Command [guid]::NewGuid().toString() | clip"
