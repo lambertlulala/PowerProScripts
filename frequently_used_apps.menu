@@ -1,0 +1,7 @@
+Anki = "C:\Users\Hai\AppData\Local\Programs\Anki\anki.exe"
+SumatraPDF = "C:\Users\Hai\AppData\Local\SumatraPDF\SumatraPDF.exe"
+Zeal = "C:\Program Files\Zeal\zeal.exe"
+WinDbg (x64) = "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\windbg.exe"
+WinDbg (x86) = "C:\Program Files (x86)\Windows Kits\10\Debuggers\x86\windbg.exe"
+WinDbgX = "WinDbgX.exe"
+HyperV = "mmc" "virtmgmt.msc"
