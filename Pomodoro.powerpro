@@ -2,7 +2,7 @@
 function _autoinit_()
     global g_PomodoroIndex
     global g_clName
-    global g_timerName
+    global g_timerName = "a"
     global g_PomodoroFocusMinutes = 25
     global g_PomodoroBreakMinutes = 5
     global g_PomodoroFocusTextColor = 0x5086f0
@@ -73,7 +73,8 @@ endfunction
 function generateTimerString(t)
     local left = timer(t)
     local hour = left / 3600
-    local min =  left / 60
+    local min =  left % 3600
+    min = min / 60
     local sec = left % 60
     local time = fill("00", hour) ++ ":" ++ fill("00", min) ++ ":" ++ fill("00", sec)
     return(time)
