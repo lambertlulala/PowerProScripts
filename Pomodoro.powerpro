@@ -9,6 +9,7 @@ function _autoinit_()
     global g_PomodoroBreakTextColor = 0x00ff00
     global g_PomodoroClearTextColor = 0xffffff
     global g_PomodoroFocusCategory = "Default"
+    global g_PomodoroStatus = "None"
     global g_PomodoroFocusCategoryListFile =  env("%APPDATA%") ++ ?+\PowerPro\scripts\PomodoroFocus.txt+
     global g_PomodoroLogFile = env("%APPDATA%") ++ ?+\PowerPro_PomodoroLog.txt+
 endfunction
@@ -30,6 +31,7 @@ function initFromId(clName, id, timerName)
 endfunction
 
 function focus()
+    g_PomodoroStatus = "Focus"
     *Timer Set &(g_timerName) 0 &(g_PomodoroFocusMinutes) 0
     *Timer Start &(g_timerName)
     cl.SetTextColor(g_clName, g_PomodoroIndex, g_PomodoroFocusTextColor)
@@ -40,6 +42,7 @@ function continueOrPause()
 endfunction
 
 function takeABreak()
+    g_PomodoroStatus = "Break"
     *Timer Set &(g_timerName) 0 &(g_PomodoroBreakMinutes) 0
     *Timer Start &(g_timerName)
     cl.SetTextColor(g_clName, g_PomodoroIndex, g_PomodoroBreakTextColor)
