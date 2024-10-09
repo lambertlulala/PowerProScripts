@@ -8,6 +8,9 @@ function _autoinit_()
     global g_PomodoroFocusTextColor = 0x5086f0
     global g_PomodoroBreakTextColor = 0x00ff00
     global g_PomodoroClearTextColor = 0xffffff
+    global g_PomodoroFocusCategory = "Default"
+    global g_PomodoroFocusCategoryListFile =  env("%APPDATA%") ++ ?+\PowerPro\scripts\PomodoroFocus.txt+
+    global g_PomodoroLogFile = env("%APPDATA%") ++ ?+\PowerPro_PomodoroLog.txt+
 endfunction
 
 function initFromLabel(clName, label, timerName)
@@ -65,4 +68,88 @@ endfunction
 
 function showCompletionMessage(msg)
     *Message &(msg) *takefocus
+endfunction
+
+function generateTimerString(t)
+    local left = timer(t)
+    local hour = left / 3600
+    local min =  left / 60
+    local sec = left % 60
+    local time = fill("00", hour) ++ ":" ++ fill("00", min) ++ ":" ++ fill("00", sec)
+    return(time)
+endfunction
+
+function editPomodoroFocusCategoryListFile()
+    if (file.validpath(g_PomodoroFocusCategoryListFile)) do
+        do("notepad.exe", g_PomodoroFocusCategoryListFile)
+    else
+        *Message Pomodoro Focus Category List File is not found. Please create a new file and try again.
+    endif
+endfunction
+
+function selectCategory()
+    if (file.validpath(g_PomodoroFocusCategoryListFile)) do
+        local data = file.readall(g_PomodoroFocusCategoryListFile)
+        if (data) do
+            local select = pickstring(ansitoutf8(data),"Select Focus Category")
+            if (select) do
+                g_PomodoroFocusCategory = select
+            endif
+        endif
+    else
+        *Message Pomodoro Focus Category List File is not found. Please create a new file and try again.
+    endif
+endfunction
+
+function customizeCategory()
+    local category = input("Customize Focus Category")
+    if (category) do
+        g_PomodoroFocusCategory = category
+    endif
+endfunction
+
+function openLogFile()
+    if (file.validpath(g_PomodoroLogFile)) do
+        do(g_PomodoroLogFile)
+    else
+        *Message Pomodoro log file is not found.
+    endif
+endfunction
+
+function exploreLogFile()
+    if (file.validpath(g_PomodoroLogFile)) do
+        do("explorer.exe", "/select," ++ "\"" ++ g_PomodoroLogFile ++ "\"")
+    else
+        *Message Pomodoro log file is not found.
+    endif
+endfunction
+
+function deleteLogFile()
+    local ret = messagebox("yesno", "Delete log file " ++ "\"" ++ g_PomodoroLogFile ++ "\"?")
+    if (6 == ret) do
+        file.delete(g_PomodoroLogFile)
+    else
+        *Message Pomodoro log file is not found.
+    endif
+endfunction
+
+function getCurrentDateTime()
+        local currentTime = Date.now
+        local year = slice(currentTime, 0, 3)
+        local month = slice(currentTime, 4, 5)
+        local day = slice(currentTime, 6, 7)
+        local hour = slice(currentTime, 8, 9)
+        local minute = slice(currentTime, 10, 11)
+        local second = slice(currentTime, 12, 13)
+        local datetime = year ++ "-" ++ month ++ "-" ++ day ++ " " ++ hour ++ ":" ++ minute ++ ":" ++ second
+        return(datetime)
+endfunction
+
+function writeLog(message)
+    local fp = file.open(g_PomodoroLogFile, "a")
+    if (fp) do
+        local datetime = getCurrentDateTime()
+        fp.writeline(datetime ++ " " ++ message)
+        fp.close
+    endif
 endfunction
