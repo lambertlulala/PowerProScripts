@@ -137,6 +137,24 @@ function deleteLogFile()
     endif
 endfunction
 
+function archiveLogFile()
+    if (file.validpath(g_PomodoroLogFile)) do
+        local pos = revfind(g_PomodoroLogFile, "\\")
+        if (-1 != pos) do
+            local filename = slice(g_PomodoroLogFile, pos + 1, length(g_PomodoroLogFile) - 1)
+            local directory = slice(g_PomodoroLogFile, 0, pos)
+            local archivedLogFile = directory ++ Date.now ++ "_archived_" ++ filename
+            if (file.move(g_PomodoroLogFile, archivedLogFile, 1)) do
+                *Message Successfully archived log file to &(archivedLogFile)
+            else
+                *Message Failed to archive log file
+            endif
+        endif
+    else
+        *Message Pomodoro log file is not found.
+    endif
+endfunction
+
 function getCurrentDateTime()
         local currentTime = Date.now
         local year = slice(currentTime, 0, 3)
